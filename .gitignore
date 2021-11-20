@@ -1,0 +1,7 @@
+### SAM template
+# gitignore template for AWS Serverless Application Model project
+# website: https://docs.aws.amazon.com/serverless-application-model
+
+# Ignore build folder
+.idea/
+/sample/.aws-sam/

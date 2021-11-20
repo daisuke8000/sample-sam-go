@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sample
+  
+  Sample SAM Template for sample
+
+
+Globals:
+  Function:
+    Timeout: 5
+
+Resources:
+  LineBotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: line-bot/
+      Handler: line-bot
+      Runtime: go1.x
+      Architectures:
+        - x86_64
+      Tracing: Active
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            Path: /parrot
+            Method: POST
+      Environment:
+        Variables:
+          LINE_CHANNEL_SECRET: LineChannelSecret
+          LINE_CHANNEL_ACCESS_TOKEN: LineChannelAccessToken
+
+Outputs:
+  LineBotFunctionAPI:
+    Description: "API Gateway endpoint URL for Prod environment for First Function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/parrot/"
+  LineBotFunction:
+    Description: "First Lambda Function ARN"
+    Value: !GetAtt LineBotFunction.Arn
+  LineBotFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt LineBotFunctionRole.Arn
